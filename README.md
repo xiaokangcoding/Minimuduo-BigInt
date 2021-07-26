@@ -59,4 +59,36 @@ subReactor关注的是已连接socket所关注的事件，每次新到一个连�
  timers_和activeTimers_保存的是相同的数据，timers_是按到期时间排序，activeTimers_按照对象地址排序，并且timerQueue只关注最早的那个定时器，所以当发生可读事件的时候，需要使用getExpired()获取所有的超时事件，因为可能有同一时刻的多个定时器。
 
 
-**TcpConnection**
+**TcpConnection类**
+
+TcpServer还包含了一个TcpConnection列表这是一个已连接列表。TcpConnection与Acceptor类似，有两个重要的数据成员，Socket与Channel。所以说，Acceptor用于accept接受TCP连接。Acceptor的数据成员包括Socket、Channel，Acceptor的socket是listening socket。Channel用于观察此socket的readable事件，并回调Acceptor::handleRead(),后者调用accept来接受新连接，并回调TcpServer::newConnection callback。
+
+**连接建立时序图**
+
+
+![86f507a2e4c876c98c64eff17c9f1c2b.png](en-resource://database/513:1)
+
+**连接断开时序图**
+
+
+![4b812c76891f54286ca0096568934e4c.png](en-resource://database/515:1)
+
+
+**Buffer类的设计**
+
+
+对外表现为一块连续的内存(char*, len)，以方便客户代码的编写。其 size() 可以自动增长，以适应不同大小的消息。它不是一个 fixed size array (即 char buf[8192])，通过vector自动实现利用临时栈上空间，如果读入的数据不多，那么全部都读到 Buffer 中去了；如果长度超过 Buffer 的 writable 字节数，就会读到栈上的 stackbuf 里，然后程序再把 stackbuf 里的数据 append 到 Buffer 中。
+
+
+readv()将文件中连续的数据块读入内存分散的缓冲区中。writev()收集内存中分散的若干缓冲区中的数据写至文件的连续区域中。#include <sys/uio.h> ssize_t readv(int fildes, const struct iovec *iov, int iovcnt);ssize_t writev(int fildes, const struct iovec *iov, int iovcnt);
+
+
+#####  **runInLoop**
+**runInLoop的实现**：需要使用eventfd唤醒的两种情况 (1) 调用queueInLoop的线程不是当前IO线程。(2)是当前IO线程并且正在调用pendingFunctor。
+（第2点不太好理解，具体含义是:如果当前IO线程正在调用
+doPendingFunctors( ),并且在该函数中调用了queueInloop,因此需要唤醒，以便让阻塞在poll系统调用的当前IO线程及时处理。）
+
+**注意**
+只有IO线程的事件回调(handleEvent)中调用queueInLoop才不需要唤醒。因为handleEvent处理完毕之后，接下来就是调用doPendingFunctors( )来处理任务。
+
+
