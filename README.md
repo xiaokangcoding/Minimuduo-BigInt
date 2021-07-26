@@ -105,7 +105,6 @@ doPendingFunctors( ),并且在该函数中调用了queueInloop,因此需要唤�
     
     ![image](https://user-images.githubusercontent.com/54012783/126982094-710f618d-ab8c-4c13-88b2-fcd35025247e.png)
 
-
    **计算结果界面**
     ![image](https://user-images.githubusercontent.com/54012783/126981874-a25c0e50-65de-4bfb-aebb-f17763e9c655.png)
 
