@@ -99,11 +99,12 @@ doPendingFunctors( ),并且在该函数中调用了queueInloop,因此需要唤�
 
 **注册界面**
     
-    ![image](https://user-images.githubusercontent.com/54012783/126977710-ca861321-f680-4e18-8222-8bd4f5543b12.png)
+ ![image](https://user-images.githubusercontent.com/54012783/126982004-3d1f7e10-e465-4441-a4ea-75dc6dc0b8d3.png)
 
  **计算界面**
     
-    ![image](https://user-images.githubusercontent.com/54012783/126981481-2d25619b-50d7-4dac-b10e-ea0c6e478920.png)
+    ![image](https://user-images.githubusercontent.com/54012783/126982094-710f618d-ab8c-4c13-88b2-fcd35025247e.png)
+
 
    **计算结果界面**
     ![image](https://user-images.githubusercontent.com/54012783/126981874-a25c0e50-65de-4bfb-aebb-f17763e9c655.png)
