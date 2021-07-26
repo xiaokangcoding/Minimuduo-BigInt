@@ -91,4 +91,9 @@ doPendingFunctors( ),并且在该函数中调用了queueInloop,因此需要唤�
 **注意**
 只有IO线程的事件回调(handleEvent)中调用queueInLoop才不需要唤醒。因为handleEvent处理完毕之后，接下来就是调用doPendingFunctors( )来处理任务。
 
+### **Demo演示**
+
+**注册界面**
+
+![image](https://user-images.githubusercontent.com/54012783/126977561-79159e09-10ee-4091-b7d5-e08cd302eb58.png)
 
