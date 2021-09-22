@@ -466,11 +466,12 @@ void BigInt::AddMove(BigInt &bt, const BigInt &bt1, int offset)
 		++i;
 		++j;
 	}
+	/*
 	while(sign>0 && i<=bt.size())
 	{
 		bt[i] = AddItem(bt[i], 0, sign);
 		++i;
-	}
+	}*/
 	while(j <= bt1.size())
 	{
 		u_char sum = AddItem(0, bt1[j], sign);
